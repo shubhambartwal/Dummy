@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Will You Be My Valentine?</title>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      body {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 208, 229, 1) 0%,
+          rgba(255, 232, 242, 1) 36%,
+          rgba(255, 255, 255, 1) 100%
+        );
+      }
+
+      .bounce {
+        animation: bounce 2s infinite;
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-15px);
+        }
+        60% {
+          transform: translateY(-8px);
+        }
+      }
+    </style>
+  </head>
+
+  <body class="min-h-screen flex items-center justify-center p-4">
+    <div class="flex flex-col items-center text-center max-w-sm w-full">
+      <!-- IMAGE -->
+      <img
+        id="imageDisplay"
+        src="./images/image1.gif"
+        class="rounded-lg w-full max-h-[280px] object-contain"
+        alt="cute gif"
+      />
+
+      <!-- QUESTION -->
+      <h2
+        id="question"
+        class="text-3xl md:text-4xl font-bold italic text-pink-700 my-6"
+      >
+        Will you be my Valentine? 💖
+      </h2>
+
+      <!-- DEDICATION -->
+      <p class="text-pink-600 italic text-sm mb-4">
+        Specially made for <span class="font-semibold">Anchal</span> 💕
+      </p>
+
+      <!-- BUTTONS -->
+      <div id="buttons" class="flex gap-4 items-center justify-center w-full">
+        <button
+          id="yesButton"
+          class="bounce bg-green-500 hover:bg-green-400 text-white font-bold text-lg px-6 py-3 rounded-lg transition-all"
+        >
+          Yes
+        </button>
+
+        <button
+          id="noButton"
+          class="bg-red-500 hover:bg-red-600 text-white font-bold text-lg px-6 py-3 rounded-lg transition-all"
+        >
+          No
+        </button>
+      </div>
+    </div>
+
+    <!-- CONFETTI -->
+    <script type="module">
+      import confetti from "https://cdn.skypack.dev/canvas-confetti";
+
+      const yesButton = document.getElementById("yesButton");
+      const noButton = document.getElementById("noButton");
+      const imageDisplay = document.getElementById("imageDisplay");
+      const question = document.getElementById("question");
+      const buttons = document.getElementById("buttons");
+
+      const imagePaths = [
+        "./images/image1.gif",
+        "./images/image2.gif",
+        "./images/image3.gif",
+        "./images/image4.gif",
+        "./images/image5.gif",
+        "./images/image6.gif",
+        "./images/image7.gif",
+      ];
+
+      const noMessages = [
+        "No",
+        "Are you sure?",
+        "Anchal please 🥺",
+        "Anchal Soch le 👀",
+        "You're breaking my heart 💔",
+        "Pleaseeee 😭",
+        "Aaaaachalllllllll🥹",
+        "Don't do this 😣",
+        "I'm crying now 🥹",
+        "maaaan bhi jaaaa 😤",
+        "Okay fine… click YES 😈",
+      ];
+
+      let noClicks = 0;
+      let yesSize = 70;
+
+      // NO BUTTON CLICK
+      noButton.addEventListener("click", () => {
+        noClicks++;
+
+        // change image
+        imageDisplay.src = imagePaths[noClicks % imagePaths.length];
+
+        // update NO text
+        noButton.textContent =
+          noMessages[Math.min(noClicks, noMessages.length - 1)];
+
+        // grow YES button
+        yesSize += 45;
+        yesButton.style.width = yesSize + "px";
+        yesButton.style.height = yesSize + "px";
+        yesButton.style.fontSize = Math.min(yesSize / 3, 60) + "px";
+
+        // fullscreen condition
+        if (
+          yesSize >= window.innerWidth * 0.9 ||
+          yesSize >= window.innerHeight * 0.9
+        ) {
+          makeYesFullscreen();
+        }
+      });
+
+      // YES FULLSCREEN MODE
+      function makeYesFullscreen() {
+        yesButton.style.position = "fixed";
+        yesButton.style.inset = "0";
+        yesButton.style.width = "100vw";
+        yesButton.style.height = "100vh";
+        yesButton.style.fontSize = "10vw";
+        yesButton.style.borderRadius = "0";
+        yesButton.style.zIndex = "9999";
+
+        noButton.style.display = "none";
+      }
+
+      // YES CLICK
+      yesButton.addEventListener("click", () => {
+        imageDisplay.src = "./images/image7.gif";
+        question.textContent = "YAYYYY!! 💕🥰";
+        buttons.style.display = "none";
+
+        confetti({
+          particleCount: 200,
+          spread: 120,
+          origin: { y: 0.6 },
+        });
+      });
+    </script>
+  </body>
+</html>
